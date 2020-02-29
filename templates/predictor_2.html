@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+{% block content %}
+<div id="example1" class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100">
+
+            </div>
+
+
+            <div>{{chat_in|safe }}</div>
+
+            <br>
+            <div style="max-width:100%; margin-left: auto; margin-right: auto;">
+                <center>
+                    <img src="{{ url_for('static', filename='images/box.png') }}" class="img-fluid" alt="Responsive image" >
+                </center>
+            </div>
+            <br>
+            <div style="max-width:100%; margin-left: auto; margin-right: auto;">
+                <center>
+                    <img src="{{ url_for('static', filename='images/heatmap.png') }}" class="img-fluid" alt="Responsive image">
+                </center>
+            </div>
+            <br>
+            <div style="max-width:100%; margin-left: auto; margin-right: auto;">
+                <center>
+                    <img src="{{ url_for('static', filename='images/countplotdiagnosis.png') }}" class="img-fluid" alt="Responsive image">
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

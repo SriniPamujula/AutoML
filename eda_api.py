@@ -163,7 +163,7 @@ def plot_countplot(dataframe,title=None,file=None):
         #print("in column loop",column)
         #sns.countplot(x = column , data = dfcategorical, label="Count")
         #plt.show()
-               
+        
        
     return 
 
@@ -184,7 +184,7 @@ def plot_analysis_data(dfwolables, dfcategorical):
     #plt.setp(ax.get_xticklabels(), rotation=90)
     #plt.show()
     
-    plot_boxplot(dfbox,'Features Boxplot','box')
+    plot_boxplot(dfbox,'Variables Boxplot','box')
    
     # plot the data 
     ## Heatmap to check the correlation between features
@@ -192,7 +192,7 @@ def plot_analysis_data(dfwolables, dfcategorical):
     #plt.figure(figsize=(14,14))
     #sns.heatmap(corr,cbar = True,square = True,cmap= 'coolwarm')
     #plt.show()
-    half_masked_corr_heatmap(dfwolables,'Features Correlations','heatmap')
+    half_masked_corr_heatmap(dfwolables,'Variable Correlations','heatmap')
 
 
     ## Pairpolot to see the correlation using scatter plots
@@ -293,8 +293,7 @@ def exploratorydataanalysis(chat_in):
     print("here2:",dir+chat_in)
     dforig, html = read_analyze_data(dir+file)
     print(html)
-    html = html.replace('dataframe','table table-responsive',1)
-    
+    #html = html.replace('dataframe','table table-responsive',1)
     dfcategorical, dfwolables = convert_data_numerical_categorical(dforig)
     
     plot_analysis_data(dfwolables, dfcategorical)
@@ -356,7 +355,9 @@ def data_wangling(dforig):
     # join encoded and numeric data
     dfv = pd.concat([dfv,dfcategoricalencode],axis = 1)
     
-       
+    
+
+    
     return dfv
 
 
@@ -456,6 +457,9 @@ def make_classification(chat_in):
    
     return
 
+
+
+
 #make_prediction('breast-cancer-data.csv')
 
 #make_prediction('cereal.csv')
@@ -469,6 +473,7 @@ if __name__ == '__main__':
     pprint(chat_in)
     X_input = exploratorydataanalysis(chat_in)
     make_classification(chat_in)
+
 
     #print(f'Input values: {x_input}')
     #print('Output probabilities')

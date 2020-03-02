@@ -5,7 +5,8 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv), data man
 import matplotlib.pyplot as plt # this is used for the plot the graph
 import seaborn as sns # used for plot interactive graph. I like it most for plot
 from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import Imputer
+#from sklearn.preprocessing import Imputer
+from sklearn.Imputer import SimpleImputer as Imputer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 

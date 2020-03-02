@@ -5,7 +5,8 @@ from flask import request,flash, redirect, url_for
 from werkzeug.utils import secure_filename
 from eda_api import exploratorydataanalysis #, make_prediction 
 from eda_api import exploratorydataanalysis
-#from gevent.pywsgi import WSGIServer
+# for production web service
+from gevent.pywsgi import WSGIServer
 
 #UPLOAD_FOLDER = '/uploads'
 
@@ -74,6 +75,8 @@ def upload_file():
        filename = 'breast-cancer-data.csv'
        x_input = exploratorydataanalysis(filename)
        return flask.render_template('predictor_2.html',chat_in=x_input)
+       #return flask.redirect(url_for('predictor_2'))
+
     if request.method == 'GET':
        print("#4")
        return flask.render_template('predictor_1.html',chat_in=' ')
@@ -93,6 +96,9 @@ def upload_file():
 if __name__=="__main__":
     # For local development, set to True:
     app.secret_key = os.urandom(50)
-    app.run(use_reloader=True,debug=False)
-    #http_server = WSGIServer(('', 5000), app)
-    #http_server.serve_forever()
+    #for dev webservice
+    #app.run(use_reloader=True,debug=False)
+    #app.run(host='0.0.0.0')
+    #for production web seive
+    http_server = WSGIServer(('127.0.0.1',5000), app)
+    http_server.serve_forever()

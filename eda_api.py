@@ -163,7 +163,7 @@ def plot_countplot(dataframe,title=None,file=None):
         #print("in column loop",column)
         #sns.countplot(x = column , data = dfcategorical, label="Count")
         #plt.show()
-        
+               
        
     return 
 
@@ -184,7 +184,7 @@ def plot_analysis_data(dfwolables, dfcategorical):
     #plt.setp(ax.get_xticklabels(), rotation=90)
     #plt.show()
     
-    plot_boxplot(dfbox,'Variables Boxplot','box')
+    plot_boxplot(dfbox,'Features Boxplot','box')
    
     # plot the data 
     ## Heatmap to check the correlation between features
@@ -192,7 +192,7 @@ def plot_analysis_data(dfwolables, dfcategorical):
     #plt.figure(figsize=(14,14))
     #sns.heatmap(corr,cbar = True,square = True,cmap= 'coolwarm')
     #plt.show()
-    half_masked_corr_heatmap(dfwolables,'Variable Correlations','heatmap')
+    half_masked_corr_heatmap(dfwolables,'Features Correlations','heatmap')
 
 
     ## Pairpolot to see the correlation using scatter plots
@@ -293,14 +293,15 @@ def exploratorydataanalysis(chat_in):
     print("here2:",dir+chat_in)
     dforig, html = read_analyze_data(dir+file)
     print(html)
-    #html = html.replace('dataframe','table table-responsive',1)
+    html = html.replace('dataframe','table table-responsive',1)
+    
     dfcategorical, dfwolables = convert_data_numerical_categorical(dforig)
     
     plot_analysis_data(dfwolables, dfcategorical)
     
-    text_file = open("index.html", "w")
-    text_file.write(html)
-    text_file.close()
+    #text_file = open("index.html", "w")
+    #text_file.write(html)
+    #text_file.close()
 
     return html
 def data_wangling(dforig):
@@ -355,114 +356,21 @@ def data_wangling(dforig):
     # join encoded and numeric data
     dfv = pd.concat([dfv,dfcategoricalencode],axis = 1)
     
-    
-
-    
+       
     return dfv
 
 
-def split_data(dataframe):
-    print("****split_data****'")
-    # split X and y data
-    X = dataframe.iloc[:,0:-1]
-    X
-    y = dataframe.iloc[:,-1]
-    y
-    # Train Test Split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=5) # 80% training and 20% test
-    print("X_train:" + str(X_train.shape))
-    print("X_test:" + str(X_test.shape))
-    print("y_train:" + str(y_train.shape))
-    print("y_test:" + str(y_test.shape))
-    print("y_train",y_train)
-    
-    #sss = StratifiedShuffleSplit(labels, 10, test_size=0.2, random_state=23)
-    #for train_index, test_index in sss:
-    #    X_train, X_test = train.values[train_index], train.values[test_index]
-    #    y_train, y_test = labels[train_index], labels[test_index]
-    
-    return X_train, X_test, y_train, y_test
-
-# fit different classificatin models 
-def fit_data_model(X_train, X_test, y_train, y_test):
-    print("****fit_data_model****'")
-    classifiers = [
-        LogisticRegression(),
-        KNeighborsClassifier(3),
-        SVC(kernel="rbf", C=0.025, probability=True),
-        NuSVC(probability=True),
-        DecisionTreeClassifier(),
-        RandomForestClassifier(),
-        GaussianNB()]
-    # Logging for Visual Comparison
-    log_cols=["Classifier", "Accuracy", "Log Loss", "Pricision", "Recall", "f1 Score"]
-    logdf = pd.DataFrame(columns=log_cols)
-    
-    for clf in classifiers:
-        clf.fit(X_train, y_train)
-        name = clf.__class__.__name__
-
-        print("="*30)
-        print(name)
-
-        print("****Results****'")
-        y_predict = clf.predict(X_test)
-        acc = accuracy_score(y_test, y_predict)
-        print("Accuracy: {:.4%}".format(acc))
-        
-        report = classification_report(y_test, y_predict)
-        print(report)
-        
-        matrix = confusion_matrix(y_test, y_predict)
-        print(matrix)
-        confusion_df = pd.DataFrame(confusion_matrix(y_test,y_predict),
-        columns=["Predicted Class " + str(class_name) for class_name in [0,1]],
-        index = ["Class " + str(class_name) for class_name in [0,1]])
-        print(confusion_df)
-        
-        
-        #curve = precision_recall_curve(y_test, y_predict)
-        #plt.plot(curve)
-        pc = precision_score(y_test,y_predict)
-        print("Precision: {}".format(pc))
-        
-        rc = recall_score(y_test,y_predict)
-        print("Recall: {}".format(rc))
-        f1 = f1_score(y_test,y_predict)
-        print("f1 score: {}".format(f1))
- 
 
 
-        y_predict = clf.predict_proba(X_test)
-        ll = log_loss(y_test, y_predict)
-        print("Log Loss: {}".format(ll))
-        
-
-     
-        log_entry = pd.DataFrame([[name, acc, ll, pc, rc, f1]], columns=log_cols)
-        logdf = logdf.append(log_entry)
-    
-    print("="*30)
-    
-    return logdf
 
 def make_classification(chat_in):
     file = chat_in
     dataframe = pd.read_csv(file, skipinitialspace = True, thousands=',')
     dfv = data_wangling(dataframe)
-    #split data
-    X_train, X_test, y_train, y_test = split_data(dfv)
-    logdf = fit_data_model(X_train, X_test, y_train, y_test)
     
    
     return
 
-
-
-
-#make_prediction('breast-cancer-data.csv')
-
-#make_prediction('cereal.csv')
 
 if __name__ == '__main__':
     from pprint import pprint
@@ -473,7 +381,6 @@ if __name__ == '__main__':
     pprint(chat_in)
     X_input = exploratorydataanalysis(chat_in)
     make_classification(chat_in)
-
 
     #print(f'Input values: {x_input}')
     #print('Output probabilities')

@@ -1,34 +1,63 @@
 {% extends "index.html" %}
 {% block content %}
 <div id="example1" class="limiter">
-    <div class="container-table100">
-        <div class="wrap-table100">
-            <div class="table100">
 
-            </div>
-
-
-            <div>{{chat_in|safe }}</div>
+          
 
             <br>
             <div style="max-width:100%; margin-left: auto; margin-right: auto;">
+					<h1>Results after processing the data</h1>
+					<p class="lead">Typical Machine Learning process requires 1) Data Wrangling to treat missing data, null values and duplicate rows etc.
+					2) Exploratory Data Analysis(EDA) to reivew the statistial features, correlation between variables and distribution of lables. 3) Pre processing the data
+					to account correlated lables, outliers, bias and dimensionality etc. 4) Identify  diffrent statistical, mathematical, deep learning models for the business case and process the models. 5) Check the
+					accuracy of predicted vs actual accuracy between different models. 6) Hyper Parameter tunining of different models to improve accuracy
+					</p>
+					<p class="lead"><b>1) After Data Wrangling the UCI breast cancer dataset, the top 5 rows are presented below.</b></p>
+					<div style="max-width:100%; margin-left: auto; margin-right: auto;">{{chat_in|safe }}</div>
+            </div>
+			
+
+			           <br>
+			<div style="max-width:100%; margin-left: auto; margin-right: auto;">
+				    <div class="starter-template">
+					<p class="lead"><b>2a) Following Box and whisker plot presented show the statistical distribution of the data.</b></p>
+					</div>
+
                 <center>
-                    <img src="{{ url_for('static', filename='images/box.png') }}" class="img-fluid" alt="Responsive image" >
+                    <img src="{{ url_for('static', filename='images/box.png') }}" class="img-fluid" alt="Responsive image" />
                 </center>
             </div>
             <br>
             <div style="max-width:100%; margin-left: auto; margin-right: auto;">
+				<div class="starter-template">
+					<p class="lead"><b>2b) Following Heat Map plot presented to show the correlation between features.</b></p>
+				</div>
                 <center>
-                    <img src="{{ url_for('static', filename='images/heatmap.png') }}" class="img-fluid" alt="Responsive image">
+                    <img src="{{ url_for('static', filename='images/heatmap.png') }}" class="img-fluid" alt="Responsive image"/>
                 </center>
             </div>
             <br>
-            <div style="max-width:100%; margin-left: auto; margin-right: auto;">
+            <!--div style="max-width:100%; margin-left: auto; margin-right: auto;">
                 <center>
                     <img src="{{ url_for('static', filename='images/countplotdiagnosis.png') }}" class="img-fluid" alt="Responsive image">
                 </center>
+            </div-->
+			<div class="mx-auto" style="width: 500px;">
+				<div class="starter-template">
+					<p class="lead"><b>2c) Following Count plot presented to show the label counts for binary classification.</b></p>
+				</div>
+                <center>
+                    <img src="{{ url_for('static', filename='images/countplotdiagnosis.png') }}" class="img-fluid" alt="Responsive image"/>
+                </center>
             </div>
-        </div>
-    </div>
+			<br>
+			<div style="max-width:100%; margin-left: auto; margin-right: auto;">
+				<div class="starter-template">
+					<p class="lead"><a href="#contact"><b>Contact us</a> to experience data Pre processing , model selection, model fitting, accuracy checking and hyper parameter tunening.</b></p>
+			
+				</div>
+
+            </div>
+
 </div>
 {% endblock %}

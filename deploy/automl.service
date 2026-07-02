@@ -1,0 +1,15 @@
+[Unit]
+Description=AutoML Web Platform - BetterAI
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/AutoML
+ExecStart=/home/ubuntu/AutoML/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --timeout 300 app:app
+Restart=always
+RestartSec=5
+Environment="PATH=/home/ubuntu/AutoML/venv/bin"
+
+[Install]
+WantedBy=multi-user.target

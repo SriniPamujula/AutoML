@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Error{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 text-center">
+        <div class="card-dark p-5">
+            <div class="alert-danger-custom p-4 mb-4">
+                <h1 class="h4 mb-3">Something went wrong</h1>
+                <p class="mb-0">{{ error_message }}</p>
+            </div>
+            <a href="/" class="btn-outline-custom">Try Again</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,18 @@
+// AutoML Platform - Main JavaScript
 
-(function ($) {
-    "use strict";
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadForm = document.getElementById('upload-form');
+    const progressContainer = document.getElementById('progress-container');
+    const progressText = document.getElementById('progress-text');
 
-        
-    
-
-})(jQuery);
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', function() {
+            if (progressContainer) {
+                progressContainer.classList.remove('d-none');
+            }
+            if (progressText) {
+                progressText.textContent = 'Uploading and analyzing your data...';
+            }
+        });
+    }
+});

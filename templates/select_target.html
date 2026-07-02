@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Select Target Column{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="text-center mb-4">
+            <span class="badge-primary mb-3 d-inline-block">Step 2</span>
+            <h1 class="h3 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">Select Target Column</h1>
+            <p class="text-muted-custom">
+                Choose the column to predict. The platform auto-detects classification vs regression.
+            </p>
+        </div>
+
+        <div class="card-dark p-5">
+            <p class="small text-muted-custom mb-4">
+                <strong>File:</strong> {{ filename }}<br>
+                <strong>Columns:</strong> {{ columns|length }}
+            </p>
+
+            <form action="{{ url_for('analyze') }}" method="POST" id="analyze-form">
+                <input type="hidden" name="file_path" value="{{ file_path }}">
+
+                <div class="mb-4">
+                    <label for="target_column" class="form-label text-muted-custom">Target Column</label>
+                    <select class="form-select-dark w-100" id="target_column" name="target_column" required>
+                        <option value="" disabled selected>-- Select target column --</option>
+                        {% for col in columns %}
+                        <option value="{{ col }}">{{ col }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary-custom w-100">Run Analysis</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

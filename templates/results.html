@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block title %}Analysis Results{% endblock %}
+{% block content %}
+<div class="mb-4">
+    <span class="badge-primary mb-2 d-inline-block">Results</span>
+    <h1 class="h3 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">Analysis Complete</h1>
+    <p class="text-muted-custom">
+        <strong>File:</strong> {{ filename }} |
+        <strong>Target:</strong> {{ target_column }} |
+        <strong>Task:</strong> <span class="badge-success">{{ task_type | capitalize }}</span>
+    </p>
+</div>
+
+<!-- EDA Section -->
+<div class="card-dark mb-4">
+    <div class="card-header p-3">
+        <h2 class="h6 mb-0">1. Exploratory Data Analysis</h2>
+    </div>
+    <div class="p-4">
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--primary);">{{ eda.shape[0] }}</div>
+                    <div class="stat-label">Rows</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--secondary);">{{ eda.shape[1] }}</div>
+                    <div class="stat-label">Columns</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--warning);">{{ total_nulls }}</div>
+                    <div class="stat-label">Total Nulls</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--accent);">{{ duplicates_removed }}</div>
+                    <div class="stat-label">Duplicates Removed</div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="h6 text-muted-custom mt-4 mb-2">First 5 Rows</h3>
+        <div class="table-responsive">
+            {{ head_html | safe }}
+        </div>
+
+        <h3 class="h6 text-muted-custom mt-4 mb-2">Descriptive Statistics</h3>
+        <div class="table-responsive">
+            {{ describe_html | safe }}
+        </div>
+    </div>
+</div>
+
+<!-- Visualizations -->
+<div class="card-dark mb-4">
+    <div class="card-header p-3">
+        <h2 class="h6 mb-0">2. Visualizations</h2>
+    </div>
+    <div class="p-4">
+        {% if boxplot_html %}
+        <h3 class="h6 text-muted-custom mb-2">Box Plot — Feature Distributions</h3>
+        <div class="mb-4">{{ boxplot_html | safe }}</div>
+        {% endif %}
+
+        {% if heatmap_html %}
+        <h3 class="h6 text-muted-custom mb-2">Correlation Heatmap</h3>
+        <div class="mb-4">{{ heatmap_html | safe }}</div>
+        {% endif %}
+
+        {% if countplot_htmls %}
+        <h3 class="h6 text-muted-custom mb-2">Category Distributions</h3>
+        <div class="row justify-content-center">
+        {% for html in countplot_htmls %}
+        <div class="col-lg-8 mb-3">{{ html | safe }}</div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Model Results -->
+<div class="card-dark mb-4">
+    <div class="card-header p-3">
+        <h2 class="h6 mb-0">3. Model Comparison</h2>
+    </div>
+    <div class="p-4">
+        <div class="alert-success-custom p-3 mb-4">
+            <strong>🏆 Best Model:</strong> {{ best_model_name }}
+            {% if task_type == 'classification' %}
+            — Accuracy: <strong>{{ "%.4f" | format(best_metrics.accuracy) }}</strong>
+            {% else %}
+            — R²: <strong>{{ "%.4f" | format(best_metrics.r2) }}</strong>
+            {% endif %}
+        </div>
+
+        {% if chart_html %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">{{ chart_html | safe }}</div>
+        </div>
+        {% endif %}
+
+        <h3 class="h6 text-muted-custom mt-3 mb-2">All Models</h3>
+
+        {% if task_type == 'classification' %}
+        <div class="mb-3 p-3" style="background: var(--bg); border-radius: 10px; border: 1px solid var(--border);">
+            <p class="small text-muted-custom mb-2"><strong>Understanding the Metrics:</strong></p>
+            <div class="row g-2" style="font-size: 0.75rem;">
+                <div class="col-md-3">
+                    <strong style="color: var(--secondary);">Accuracy</strong>
+                    <p class="mb-0 text-muted-custom">% of all predictions correct. Best for balanced datasets.</p>
+                </div>
+                <div class="col-md-3">
+                    <strong style="color: var(--secondary);">Precision</strong>
+                    <p class="mb-0 text-muted-custom">Of positive predictions, how many are actually positive. Matters when false positives are costly.</p>
+                </div>
+                <div class="col-md-3">
+                    <strong style="color: var(--secondary);">Recall</strong>
+                    <p class="mb-0 text-muted-custom">Of actual positives, how many were caught. Matters when missing positives is costly.</p>
+                </div>
+                <div class="col-md-3">
+                    <strong style="color: var(--secondary);">F1</strong>
+                    <p class="mb-0 text-muted-custom">Balance of precision &amp; recall. Best for imbalanced datasets.</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="mb-3 p-3" style="background: var(--bg); border-radius: 10px; border: 1px solid var(--border);">
+            <p class="small text-muted-custom mb-2"><strong>Understanding the Metrics:</strong></p>
+            <div class="row g-2" style="font-size: 0.75rem;">
+                <div class="col-md-4">
+                    <strong style="color: var(--secondary);">R²</strong>
+                    <p class="mb-0 text-muted-custom">How much variance the model explains. 1.0 = perfect, 0 = no better than mean.</p>
+                </div>
+                <div class="col-md-4">
+                    <strong style="color: var(--secondary);">MAE</strong>
+                    <p class="mb-0 text-muted-custom">Mean Absolute Error. Average size of prediction errors in original units.</p>
+                </div>
+                <div class="col-md-4">
+                    <strong style="color: var(--secondary);">RMSE</strong>
+                    <p class="mb-0 text-muted-custom">Root Mean Squared Error. Penalizes large errors more heavily than MAE.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="table-responsive">
+            {{ comparison_html | safe }}
+        </div>
+    </div>
+</div>
+
+<!-- Sample Predictions -->
+<div class="card-dark mb-4">
+    <div class="card-header p-3">
+        <h2 class="h6 mb-0">4. Sample Predictions ({{ best_model_name }})</h2>
+    </div>
+    <div class="p-4">
+        <div class="table-responsive">
+            {{ predictions_html | safe }}
+        </div>
+    </div>
+</div>
+
+<!-- Actions -->
+<div class="card-dark mb-4">
+    <div class="card-header p-3">
+        <h2 class="h6 mb-0">5. Pipeline Summary</h2>
+    </div>
+    <div class="p-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-value" style="color: var(--primary); font-size:1rem;">EDA</div>
+                    <p class="stat-label">Analyzed {{ eda.shape[0] }} rows × {{ eda.shape[1] }} columns. Identified {{ total_nulls }} nulls and {{ duplicates_removed }} duplicates.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-value" style="color: var(--secondary); font-size:1rem;">Data Wrangling</div>
+                    <p class="stat-label">Removed null columns, imputed missing values (median), encoded categoricals, scaled features, split 80/20.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-value" style="color: var(--success); font-size:1rem;">Model Training</div>
+                    <p class="stat-label">
+                        {% if task_type == 'classification' %}
+                        Trained 9 classification models. Best: {{ best_model_name }} ({{ "%.2f" | format(best_metrics.accuracy * 100) }}% accuracy).
+                        {% else %}
+                        Trained 7 regression models. Best: {{ best_model_name }} (R² = {{ "%.4f" | format(best_metrics.r2) }}).
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3" style="background: var(--bg); border-radius: 10px; border: 1px solid var(--border);">
+            <p class="small mb-2" style="color: var(--secondary);"><strong>Steps Performed:</strong></p>
+            <div class="d-flex flex-wrap gap-2" style="font-size: 0.75rem;">
+                <span class="badge-primary">1. File Upload</span>
+                <span style="color: var(--muted);">→</span>
+                <span class="badge-primary">2. EDA</span>
+                <span style="color: var(--muted);">→</span>
+                <span class="badge-primary">3. Visualizations</span>
+                <span style="color: var(--muted);">→</span>
+                <span class="badge-primary">4. Data Wrangling</span>
+                <span style="color: var(--muted);">→</span>
+                <span class="badge-primary">5. Model Training</span>
+                <span style="color: var(--muted);">→</span>
+                <span class="badge-primary">6. Evaluation</span>
+                <span style="color: var(--muted);">→</span>
+                <span class="badge-success">7. Results</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <a href="/" class="btn-outline-custom">Analyze Another Dataset</a>
+</div>
+{% endblock %}

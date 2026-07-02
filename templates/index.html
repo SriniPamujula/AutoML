@@ -1,493 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="/static/pics/favicon2.png">
-
-  <title>Better Machine Learning</title>
-
-  <!-- Bootstrap core CSS -->
-  <!--link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <!--link href="bootstrap.min.css" rel="stylesheet"-->
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <link href="/static/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-  <!--[if lt IE 9]><script src="..//static/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-  <script src="/static/assets/js/ie-emulation-modes-warning.js"></script>
-
-
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-  <!-- Custom styles for this template -->
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $(".dropdown, .btn-group").hover(function () {
-        var dropdownMenu = $(this).children(".dropdown-menu");
-        if (dropdownMenu.is(":visible")) {
-          dropdownMenu.parent().toggleClass("open");
-        }
-      });
-
-  </script>
-  <style type="text/css">
-    .bs-example {
-      margin: 20px;
-    }
-
-    @media screen and (min-width: 768px) {
-
-      .dropdown:hover .dropdown-menu,
-      .btn-group:hover .dropdown-menu {
-        display: block;
-      }
-
-      .dropdown-menu {
-        margin-top: 0;
-      }
-
-      .dropdown-toggle {
-        margin-bottom: 2px;
-      }
-
-      .navbar .dropdown-toggle,
-      .nav-tabs .dropdown-toggle {
-        margin-bottom: 0;
-      }
-    }
-
-    .dropdown-submenu {
-      position: relative;
-    }
-
-    .dropdown-submenu .dropdown-menu {
-      top: 0;
-      left: 100%;
-      margin-top: -1px;
-    }
-  </style>
-  <link href="/static/css/carousel.css" rel="stylesheet">
-</head>
-<!-- NAVBAR
-================================================== -->
-
-<body>
-  <!--nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-          aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-
-          <li><a href="#projects">Projects</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-              aria-expanded="false">Blogs</a>
-            <ul class="dropdown-menu">
-              <li><a href="blog.html" target="_balnk">Exploratory Data Analysis</a></li>
-              <li><a href="blog.html" target="_balnk">Feature Engineering</a></li>
-              <li><a href="blog.html" target="_balnk">Data Pre-Processing</a></li>
-              <li><a href="blog.html" target="_balnk">Model Fitting</a></li>
-              <li><a href="blog.html" target="_balnk">Hyper Parameter Tuning</a></li>
-              <li><a href="blog.html" target="_balnk">Model Accuracy</a></li>
-
-
-            </ul>
-
-
-
-
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#contact">Contact Us</a></li>
-
-        </ul>
-
-      </div>
-    </div>
-  </nav-->
-
-
-<main>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">Better ML</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#projects">Projects</a>
-      </li>
-	  <li class="nav-item">
-        <a class="nav-link" href="#">Blog</a>
-      </li>
-	  <li class="nav-item">
-        <a class="nav-link" href="#about">About Us</a>
-      </li>
-	  <li class="nav-item">
-        <a class="nav-link" href="#contact">Contact Us</a>
-      </li>
-      <!--li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li-->
-    </ul>
-    <form class="form-inline mt-2 mt-md-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-
-
-
-
-  <!-- Carousel
-    ================================================== -->
-  <!--div class="container">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
-
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>
-                <font color="#03296d">Welcome to Better Machine Learning.</font>
-              </h1>
-              <p>
-                <font color="#03296d">Self-service Classification portal.</font>
-              </p>
-              <p><a class="btn btn-lg btn-primary" href="#" target="_balnk">Try UCI
-                  breast cancer dataset &raquo;</a></p>
-				  
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img class="second-slide" src="/static/pics/Analytics_Background_green.jpg" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>
-                <font color="#578e32">Welcome to Better Machine Learning 2.</font>
-              </h1>
-              <p>
-                <font color="#578e32">Self-service Regression portal </font>
-              </p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Enter Data
-                  Request&raquo;</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img class="third-slide" src="/static/pics/Analytics_Background_orange.jpg" alt="Third slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>
-                <font color="#d38a5f">Welcome to Better Machine Learning 3.</font>
-              </h1>
-              <p>
-                <font color="#d38a5f">Self-service Clustoring portal</font>
-              </p>
-
-
-              <p><a class="btn btn-lg btn-primary" href="blog.html" role="button" target="_self">Browse Documentation
-                  &raquo;</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color:#000060"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="color:#000060"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-  </div-->
-
-  <!-- /.carousel -->
-  
-  
-  
-
-  <!-- Marketing messaging and featurettes
-    ================================================== -->
-  <!-- Wrap the rest of the page in another container to center all the content. -->
-
-
-
-  <div class="container marketing">
-	<div class="starter-template">
-	        <hr class="featurette-divider">
-    <h1>Welcome to self-serve Machine Learning Portal</h1>
-    <p class="lead">Use this portal as a way to quickly start any machine learning project.<br> Use the blue button to process UCI breast cancer data to experience the Machine Learning Process.</p>
-   <form method="post" enctype="multipart/form-data" >
-                <input class="btn btn-primary" type="submit" value="Click to UCI breast cancer dataset Demo">
-    </form>
-	            <div>
-              {% block content %}{% endblock %}
-            </div>
-   </div>
-    <!-- Three columns of text below the carousel -->
-		        <hr class="featurette-divider">
-    <div class="row">
-      <div class="col-lg-4">
-        <img class="img-circle" src="/static/pics/container_1a.png" alt="Classification" width="140" height="140">
-        <h2>Classification</h2>
-        <p>We provide self-service Classification solutions. Contact us to have a demo with your data.</p>
-
-        <!--p><a class="btn btn-default" href="#" role="button">Try Classification &raquo;</a></p-->
-		<!--form method="post" enctype="multipart/form-data" >
-                <input class="btn btn-primary" type="submit" value="Click to UCI breast cancer dataset Demo">
-        </form-->
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-4">
-        <img class="img-circle" src="/static/pics/container_2.png" alt="Regression" width="140" height="140">
-        <h2>Regression</h2>
-        <p>We provide self-service Regression solutions. Contact us to have a demo with your data.</p>
-        <p><a class="btn btn-default" href="#" role="button">Try Regression &raquo;</a></p>
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-4">
-        <img class="img-circle" src="/static/pics/container_3.png" alt="Clustering" width="140" height="140">
-        <h2>Clustering</h2>
-        <p>We provide self-service Clustering/Segmentaion solutions. Contact us to have a demo with your data.</p>
-        <p><a class="btn btn-default" href="#" target="_self" role="button">Try Clustering &raquo;</a></p>
-      </div>
-      <!-- /.col-lg-4 -->
-    </div>
-    <!-- /.row -->
-   
-    <!-- START THE FEATURETTES -->
-    <section id="projects" class="presentation">
-      <div class="container">
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7 col-md-push-5">
-            <h1 class="page-header">Exploratory Data Analysis<span class="text-muted"></span></h1>
-            <p class="lead">We provide data engineering solutions for extracting, integrating and analyzing source data.
-              We help customers to do EDA (Exploratory Data Analysis) service</p>
-          </div>
-          <div class="col-md-5 col-md-pull-7">
-            <img class="featurette-image img-responsive center-block" src="/static/pics/feature_0.png" alt=""
-              width="400" height="400">
-            <!--<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">  -->
-          </div>
-        </div>
-
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h1 class="page-header">Feature Engineering<span class="text-muted"></span></h1>
-            <p class="lead">We are domain experts in healthcare. We provide assistance in feature engineering.</p>
-
-          </div>
-          <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" src="/static/pics/feature_1b.png" alt=""
-              width="400" height="400">
-            <!--<img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image">  -->
-          </div>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7 col-md-push-5">
-            <h1 class="page-header">Hyper Parameter Tunening <span class="text-muted"></span></h1>
-            <p class="lead">We optimize machine learning solutions using popular tuning methods such as gradient decent
-              and grid search.</p>
-          </div>
-          <div class="col-md-5 col-md-pull-7">
-            <img class="featurette-image img-responsive center-block" src="/static/pics/feature_2a.png" alt=""
-              width="400" height="400">
-            <!-- <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image"> -->
-          </div>
-        </div>
-
-
-
-
-      </div>
-      <!-- /.container -->
-
-
-	 
-    </section>
- <hr class="featurette-divider">
- 
-    <section id="about" class="presentation">
-
-      <div class="container">
-<hr class="featurette-divider">
-        <!-- Introduction Row -->
-        <div class="row">
-          <div class="col-lg-12">
-
-            <h1 class="page-header">About Us
-              <small>"We're here to help you!"</small>
+{% extends "base.html" %}
+{% block title %}Upload Dataset{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="text-center mb-5">
+            <span class="badge-primary mb-3 d-inline-block">AutoML Platform</span>
+            <h1 class="display-5 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">
+                Automated Machine Learning
             </h1>
-            <p>We have an experienced and talented team of machine learning, deep learning and data engineers to assist
-              you.
+            <p class="lead text-muted-custom">
+                Upload a CSV file and get automatic EDA, visualizations,
+                preprocessing, and model training with results comparison.
             </p>
-          </div>
         </div>
 
-        <!-- Team Members Row -->
-        <div class="row">
-          <div class="col-lg-12">
-            <h2 class="page-header">Our Team</h2>
-          </div>
-
-
-          <div class="col-lg-4 col-sm-6 text-center">
-            <img class="img-circle img-responsive img-center" src="/static/pics/Srini.jpg" alt="" width="200"
-              height="200">
-			  <p>       <h3>Srinivasa Pamujula <br/>
-              <small>Machine Learning Data Engineer</small> 
-            </h3></p>
-            <p>AWS Certifed Machine Learning Engineer and Architect Assosiate. Pursuing passion to Machine Learning and
-              deep learning solutions</p>
-
-          </div>
-
-
-
+        <div class="card-dark p-5">
+            <h2 class="h5 mb-4" style="font-family: 'Space Grotesk', sans-serif;">Upload Your Dataset</h2>
+            <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" id="upload-form">
+                <div class="mb-4">
+                    <label for="file" class="form-label text-muted-custom">Select a CSV file (max 50 MB)</label>
+                    <input class="form-control-dark w-100" type="file" id="file" name="file" accept=".csv" required>
+                </div>
+                <button type="submit" class="btn-primary-custom w-100">Upload & Analyze</button>
+            </form>
         </div>
 
-
-
-
-
-
-      </div>
-</section>
-
-        <hr class="featurette-divider">
-		 <hr class="featurette-divider">
-
-
-	<section id="contact" class="presentation">
-       <div class="container">
-           <h3 class="text-center text-uppercase">contact us</h3>
-           <p class="text-center w-75 m-auto">Feel free to contact us.</p>
-           <div class="row">
-             <div class="col-sm-12 col-md-6 col-lg-3 my-5">
-               <div class="card border-0">
-                  <div class="card-body text-center">
-                    <i class="fa fa-phone fa-5x mb-3" aria-hidden="true"></i>
-                    <h4 class="text-uppercase mb-5">call us</h4>
-                    <p>443-858-2802</p>
-                  </div>
+        <div class="mt-5">
+            <p class="text-muted-custom small mb-3">What happens after upload:</p>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="stat-card h-100">
+                        <div class="stat-value" style="color: var(--primary); font-size:1rem;">1. EDA</div>
+                        <p class="stat-label">Statistics, nulls, types, distributions</p>
+                    </div>
                 </div>
-             </div>
-             <div class="col-sm-12 col-md-6 col-lg-3 my-5">
-               <div class="card border-0">
-                  <div class="card-body text-center">
-                    <i class="fa fa-map-marker fa-5x mb-3" aria-hidden="true"></i>
-                    <h4 class="text-uppercase mb-5">Location</h4>
-                   <address>Ellicott City, Maryland, 21042 </address>
-                  </div>
+                <div class="col-md-4">
+                    <div class="stat-card h-100">
+                        <div class="stat-value" style="color: var(--secondary); font-size:1rem;">2. Preprocess</div>
+                        <p class="stat-label">Imputation, encoding, scaling, split</p>
+                    </div>
                 </div>
-             </div>
-			 <div class="col-sm-12 col-md-6 col-lg-3 my-5">
-               <div class="card border-0">
-                  <div class="card-body text-center">
-                    <i class="fa fa-map-marker fa-5x mb-3" aria-hidden="true"></i>
-                    <h4 class="text-uppercase mb-5">LinkedIn</h4>
-                   <address><a href="https://www.linkedin.com/in/pamujula/">Pamujula LinkedIn</a> </address>
-                  </div>
+                <div class="col-md-4">
+                    <div class="stat-card h-100">
+                        <div class="stat-value" style="color: var(--success); font-size:1rem;">3. Models</div>
+                        <p class="stat-label">8+ algorithms compared, best highlighted</p>
+                    </div>
                 </div>
-             </div>
-             
-             <div class="col-sm-12 col-md-6 col-lg-3 my-5">
-               <div class="card border-0">
-                  <div class="card-body text-center">
-                    <i class="fa fa-globe fa-5x mb-3" aria-hidden="true"></i>
-                    <h4 class="text-uppercase mb-5">email</h4>
-                    <p><a href="mailto:pamujula@gmail.com">pamujula@gmail.com</a></p>
-                  </div>
-                </div>
-             </div>
-           </div>
-       </div>
-    </section>
- <hr class="featurette-divider">
- 
- <hr class="featurette-divider">
-    <footer>
-      <div class="row">
-        <div class="col-lg-12">
-          <p>&copy; 2020 Better Machine Learning. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            </div>
         </div>
-      </div>
-
-    </footer>
-</main>
-
-
-
-    <!-- FOOTER -->
-
-    <!-- Footer -->
-
-
-
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>
-      window.jQuery || document.write('<script src="/static/assets/js/vendor/jquery.min.js"><\/script>')
-
-    </script>
-    <!--script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/carousel.js"></script-->
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="/static/assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/static/assets/js/ie10-viewport-bug-workaround.js"></script>
-</body>
-
-</html>
+    </div>
+</div>
+{% endblock %}

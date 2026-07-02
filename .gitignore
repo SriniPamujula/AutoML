@@ -1,0 +1,35 @@
+# Uploaded files
+uploads/*.csv
+uploads/*.txt
+
+# Generated images
+static/generated/*.png
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# pytest
+.pytest_cache/
+
+# Distribution
+dist/
+build/

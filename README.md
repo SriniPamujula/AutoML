@@ -168,11 +168,6 @@ Browser → nginx (HTTPS, automl.betterai.guru)
                  └── results_module    (compare, rank, chart, predict)
 ```
 
-## Related Projects
-
-- [BetterAI Cost Advisor™](https://betterai.guru) — AI-Powered Databricks FinOps Platform
-- [CostOptimization](https://github.com/SriniPamujula/CostOptimization) — Databricks Cost Optimization Agent
-
 ## License
 
 MIT — © 2025 BetterAI LLC. See [LICENSE](./LICENSE).

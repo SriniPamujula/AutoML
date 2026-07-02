@@ -2,20 +2,56 @@
 {% block title %}Upload Dataset{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-8">
+    <div class="col-lg-10">
         <div class="text-center mb-5">
             <span class="badge-primary mb-3 d-inline-block">AutoML Platform</span>
             <h1 class="display-5 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">
                 Automated Machine Learning
             </h1>
             <p class="lead text-muted-custom">
-                Upload a CSV file and get automatic EDA, visualizations,
-                preprocessing, and model training with results comparison.
+                Upload a CSV or try a sample dataset — get automatic EDA, visualizations,
+                preprocessing, and model comparison in seconds.
             </p>
         </div>
 
+        <!-- Sample Datasets -->
+        <div class="mb-5">
+            <h2 class="h5 mb-3" style="font-family: 'Space Grotesk', sans-serif;">
+                Try with Sample Data <span class="text-muted-custom small">(one-click)</span>
+            </h2>
+            <div class="row g-3">
+                {% for sample in samples %}
+                <div class="col-md-6">
+                    <a href="/sample/{{ sample.id }}" class="text-decoration-none">
+                        <div class="card-dark p-4 h-100" style="cursor: pointer;">
+                            <div class="d-flex align-items-start gap-3">
+                                <span style="font-size: 2rem;">{{ sample.icon }}</span>
+                                <div class="flex-1">
+                                    <h3 class="h6 mb-1" style="color: var(--text);">{{ sample.name }}</h3>
+                                    <p class="small mb-2" style="color: var(--muted);">{{ sample.description }}</p>
+                                    <div class="d-flex gap-3 flex-wrap" style="font-size: 0.7rem;">
+                                        <span class="badge-primary">{{ sample.task_type }}</span>
+                                        <span style="color: var(--muted);">{{ sample.rows }} rows</span>
+                                        <span style="color: var(--muted);">{{ sample.columns }} cols</span>
+                                        <span style="color: var(--secondary);">Target: {{ sample.target }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="text-center my-4">
+            <span class="text-muted-custom small">──── OR ────</span>
+        </div>
+
+        <!-- Upload Form -->
         <div class="card-dark p-5">
-            <h2 class="h5 mb-4" style="font-family: 'Space Grotesk', sans-serif;">Upload Your Dataset</h2>
+            <h2 class="h5 mb-4" style="font-family: 'Space Grotesk', sans-serif;">Upload Your Own Dataset</h2>
             <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" id="upload-form">
                 <div class="mb-4">
                     <label for="file" class="form-label text-muted-custom">Select a CSV file (max 50 MB)</label>
@@ -25,25 +61,32 @@
             </form>
         </div>
 
+        <!-- What happens -->
         <div class="mt-5">
-            <p class="text-muted-custom small mb-3">What happens after upload:</p>
+            <p class="text-muted-custom small mb-3">What happens after you start:</p>
             <div class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="stat-card h-100">
                         <div class="stat-value" style="color: var(--primary); font-size:1rem;">1. EDA</div>
-                        <p class="stat-label">Statistics, nulls, types, distributions</p>
+                        <p class="stat-label">Statistics, nulls, types</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="stat-card h-100">
-                        <div class="stat-value" style="color: var(--secondary); font-size:1rem;">2. Preprocess</div>
-                        <p class="stat-label">Imputation, encoding, scaling, split</p>
+                        <div class="stat-value" style="color: var(--secondary); font-size:1rem;">2. Visualize</div>
+                        <p class="stat-label">Plots, heatmaps, distributions</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="stat-card h-100">
-                        <div class="stat-value" style="color: var(--success); font-size:1rem;">3. Models</div>
-                        <p class="stat-label">8+ algorithms compared, best highlighted</p>
+                        <div class="stat-value" style="color: var(--accent); font-size:1rem;">3. Preprocess</div>
+                        <p class="stat-label">Impute, encode, scale, split</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card h-100">
+                        <div class="stat-value" style="color: var(--success); font-size:1rem;">4. Models</div>
+                        <p class="stat-label">9+ algorithms, best highlighted</p>
                     </div>
                 </div>
             </div>

@@ -28,8 +28,110 @@ def create_app(config_class=Config):
 
     @app.route('/', methods=['GET'])
     def index():
-        """Home page with upload form."""
-        return render_template('index.html')
+        """Home page with upload form and sample datasets."""
+        from content.samples import SAMPLE_DATASETS
+        return render_template('index.html', samples=SAMPLE_DATASETS)
+
+    @app.route('/sample/<sample_id>', methods=['GET'])
+    def run_sample(sample_id):
+        """Run analysis on a pre-configured sample dataset."""
+        from content.samples import SAMPLE_DATASETS
+        from upload_handler import detect_task_type
+        from eda_module import analyze as run_eda
+        from visualization_module import generate_boxplot, generate_heatmap, generate_countplots
+        from wrangling_module import preprocess
+        from training_module import train_classification_models, train_regression_models
+        from results_module import compile_results
+
+        # Find the sample
+        sample = next((s for s in SAMPLE_DATASETS if s['id'] == sample_id), None)
+        if not sample:
+            return render_template('error.html', error_message='Sample dataset not found.')
+
+        file_path = os.path.join(os.path.dirname(__file__), 'Data', sample['file'])
+        if not os.path.exists(file_path):
+            return render_template('error.html', error_message='Sample data file missing on server.')
+
+        target_column = sample['target']
+
+        try:
+            df = pd.read_csv(file_path)
+            filename = sample['file']
+            output_dir = app.config['GENERATED_IMAGES_FOLDER']
+
+            task_type = detect_task_type(df[target_column])
+            eda_results = run_eda(df, target_column)
+
+            df_numeric = df.select_dtypes(include=['number'])
+            df_categorical = df.select_dtypes(include=['object', 'category', 'bool'])
+
+            boxplot_path = ''
+            if not df_numeric.empty:
+                boxplot_path = generate_boxplot(df_numeric, os.path.join(output_dir, 'boxplot.png'))
+
+            heatmap_path = ''
+            if df_numeric.shape[1] >= 2:
+                heatmap_path = generate_heatmap(df_numeric, target_column, os.path.join(output_dir, 'heatmap.png'))
+
+            countplot_paths = []
+            if not df_categorical.empty:
+                countplot_paths = generate_countplots(df_categorical, output_dir)
+
+            preprocessed = preprocess(df, target_column)
+
+            if task_type == 'classification':
+                model_results = train_classification_models(
+                    preprocessed.X_train, preprocessed.y_train,
+                    preprocessed.X_test, preprocessed.y_test
+                )
+            else:
+                model_results = train_regression_models(
+                    preprocessed.X_train, preprocessed.y_train,
+                    preprocessed.X_test, preprocessed.y_test
+                )
+
+            comparison = compile_results(
+                model_results, task_type,
+                preprocessed.X_test, preprocessed.y_test,
+                output_dir
+            )
+
+            head_html = eda_results.head.to_html(classes='table table-sm table-dark-custom', index=False)
+            describe_html = eda_results.describe.to_html(classes='table table-sm table-dark-custom')
+            comparison_html = comparison.comparison_table.to_html(classes='table table-sm table-dark-custom', index=False, float_format='%.4f')
+            predictions_html = comparison.sample_predictions.to_html(classes='table table-sm table-dark-custom', index=False)
+
+            def read_plotly_html(path):
+                if not path or not os.path.exists(path):
+                    return ''
+                with open(path, 'r', encoding='utf-8') as f:
+                    return f.read()
+
+            return render_template(
+                'results.html',
+                filename=filename,
+                target_column=target_column,
+                task_type=task_type,
+                eda=eda_results,
+                total_nulls=int(eda_results.null_counts.sum()),
+                duplicates_removed=preprocessed.duplicates_removed,
+                head_html=head_html,
+                describe_html=describe_html,
+                boxplot_html=read_plotly_html(boxplot_path),
+                heatmap_html=read_plotly_html(heatmap_path),
+                countplot_htmls=[read_plotly_html(p) for p in countplot_paths],
+                best_model_name=comparison.best_model_name,
+                best_metrics=comparison.best_model_metrics,
+                chart_html=read_plotly_html(comparison.chart_path),
+                comparison_html=comparison_html,
+                predictions_html=predictions_html,
+            )
+
+        except (ValidationError, PreprocessingError, TrainingError) as e:
+            return render_template('error.html', error_message=str(e))
+        except Exception as e:
+            logger.exception(f'Error running sample {sample_id}: {e}')
+            return render_template('error.html', error_message='An error occurred. Please try again.')
 
     @app.route('/upload', methods=['POST'])
     def upload():

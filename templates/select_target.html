@@ -18,6 +18,7 @@
             </p>
 
             <form action="{{ url_for('analyze') }}" method="POST" id="analyze-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="file_path" value="{{ file_path }}">
 
                 <div class="mb-4">

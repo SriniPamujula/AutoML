@@ -5,6 +5,7 @@ import logging
 
 import pandas as pd
 from flask import Flask, render_template, request
+from flask_wtf.csrf import CSRFProtect
 
 from config import Config
 from exceptions import ValidationError, PreprocessingError, TrainingError
@@ -21,6 +22,9 @@ def create_app(config_class=Config):
     """Application factory."""
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # Enable CSRF protection on all POST forms
+    CSRFProtect(app)
 
     # Ensure required directories exist
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -181,6 +185,13 @@ def create_app(config_class=Config):
 
         if not file_path or not os.path.exists(file_path):
             return render_template('error.html', error_message='File not found. Please upload again.')
+
+        # Security: validate file_path is within the uploads directory
+        abs_upload_dir = os.path.abspath(app.config['UPLOAD_FOLDER'])
+        abs_file_path = os.path.abspath(file_path)
+        if not abs_file_path.startswith(abs_upload_dir + os.sep):
+            logger.warning(f'Path traversal attempt blocked: {file_path}')
+            return render_template('error.html', error_message='Invalid file path. Please upload again.')
 
         if not target_column:
             return render_template('error.html', error_message='Please select a target column.')

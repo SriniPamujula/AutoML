@@ -53,6 +53,7 @@
         <div class="card-dark p-5">
             <h2 class="h5 mb-4" style="font-family: 'Space Grotesk', sans-serif;">Upload Your Own Dataset</h2>
             <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" id="upload-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="mb-4">
                     <label for="file" class="form-label text-muted-custom">Select a CSV file (max 50 MB)</label>
                     <input class="form-control-dark w-100" type="file" id="file" name="file" accept=".csv" required>

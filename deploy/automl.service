@@ -10,6 +10,7 @@ ExecStart=/home/ubuntu/AutoML/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:800
 Restart=always
 RestartSec=5
 Environment="PATH=/home/ubuntu/AutoML/venv/bin"
+Environment="SECRET_KEY=change-this-to-a-real-secret-in-production"
 
 [Install]
 WantedBy=multi-user.target

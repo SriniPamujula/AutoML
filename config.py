@@ -6,7 +6,7 @@ import os
 class Config:
     """Base configuration."""
 
-    SECRET_KEY = os.environ.get('SECRET_KEY', os.urandom(32))
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-fallback-change-in-production')
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
     GENERATED_IMAGES_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'generated')
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50 MB
